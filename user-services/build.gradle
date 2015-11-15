@@ -1,31 +1,37 @@
 apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'cobertura'
 apply plugin: 'com.github.kt3k.coveralls'
 
 jar {
-    baseName = 'country-service'
-    version = '1.0-SNAPSHOT'
+    baseName = 'hello-spring-boot'
+    version =  '1.0'
 }
 
 repositories { mavenCentral() }
 
 dependencies {
     // tag::jetty[]
-    compile('org.springframework.boot:spring-boot-starter-web:1.2.2.RELEASE') {
-        exclude module: "spring-boot-starter-tomcat"
-    }
-    compile 'org.springframework.boot:spring-boot-starter-actuator:1.2.6.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa:1.2.6.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-data-mongodb:1.2.6.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-data-rest:1.2.6.RELEASE'
+    compile ('org.springframework.boot:spring-boot-starter-web:1.2.2.RELEASE') { exclude module: "spring-boot-starter-tomcat" }
     compile 'org.springframework.boot:spring-boot-starter-jetty:1.2.2.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-actuator:1.2.6.RELEASE'
+
+    // Hibernate dependencies
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa:1.2.6.RELEASE'
+    compile 'com.h2database:h2:1.4.189'
 
     compile 'com.google.guava:guava:18.0'
     compile 'org.apache.logging.log4j:log4j-api:2.2'
     compile 'org.apache.logging.log4j:log4j-core:2.2'
+
+
+    // REST Assured
+    compile 'com.jayway.restassured:rest-assured:2.4.0'
+
+    // RESTFUSE
+    testCompile 'com.restfuse:com.eclipsesource.restfuse:1.2.0'
 
     // Test dependencies
     testCompile 'org.springframework.boot:spring-boot-starter-test:1.2.6.RELEASE'
@@ -41,6 +47,6 @@ buildscript {
     }
 }
 
-task wrapper(type: Wrapper) { gradleVersion = '2.7' }
+task wrapper(type: Wrapper) { gradleVersion = '2.3' }
 
 cobertura.coverageFormats = ['html', 'xml']
