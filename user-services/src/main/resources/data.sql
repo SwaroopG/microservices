@@ -1,3 +1,5 @@
+drop table user;
+create table user (id int, firstname varchar(255),lastname varchar(255),email varchar(255));
 insert into user(id,firstname,lastname,email) values(1, 'First 1', 'Last 1', '1@email.com');
 insert into user(id,firstname,lastname,email) values(2, 'First 2', 'Last 2', '2@email.com');
 insert into user(id,firstname,lastname,email) values(3, 'First 3', 'Last 3', '3@email.com');
