@@ -1,13 +1,10 @@
 package com.poorjar.user.dataaccess;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 @Entity
+@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = {"firstname", "lastname"})})
 public class User implements Serializable {
     private static final long serialVersionUID = -5215603105951570953L;
 
@@ -18,7 +15,8 @@ public class User implements Serializable {
     private String lastname;
     private String email;
 
-    protected User() {}
+    protected User() {
+    }
 
     public User(String firstname, String lastname, String email) {
         this.firstname = firstname;
