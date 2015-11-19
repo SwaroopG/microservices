@@ -121,19 +121,26 @@
 
               <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
               <script>
-                $.getJSON('http://localhost:8200/library/assets/all', function(data) {
-                  console.log(data);
-                  var div = document.getElementById('asset-table-body');
-                  for(i = 0; i < data.length; i++ ){
-                    var tr = document.createElement('tr');
-                    tr.innerHTML = '<td>'+data[i].id+'</td><td>'+ data[i].title+'</td><td>'+data[i].author;
-                    div.appendChild(tr);
-                  }
+                function loadAssets() {
+                  $('#asset-table-body').empty()
+                  $.getJSON('http://localhost:8200/library/assets/all', function(data) {
+                    console.log(data);
+                    var div = document.getElementById('asset-table-body');
+                    for(i = 0; i < data.length; i++ ){
+                      var tr = document.createElement('tr');
+                      tr.innerHTML = '<td>'+data[i].id+'</td><td>'+ data[i].title+'</td><td>'+data[i].author;
+                      div.appendChild(tr);
+                    }
+                  });
+                }
+              </script>
+              <script>
+                $(document).ready(function() {
+                    loadAssets();
                 });
               </script>
-
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Reload</button>
+                <button id = "reload-asset-data-button" type="submit" onclick="loadAssets()" class="btn btn-primary">Reload</button>
               </div>
             </div>
           </div>
@@ -150,7 +157,7 @@
             <div class="box box-solid">
               <div class="box-body">
                 <p>
-                  All rental files in the library listed here. Uses <b>library/rental/all</b> API.
+                  All rental files in the library listed here. Uses <b>library/rentals/all</b> API.
                 </p>
 
                 <table id="rental-data" class="table table-striped bring-up">
@@ -160,7 +167,7 @@
                     <th>Asset ID</th>
                     <th>User ID</th>
                     <th>Rental Date</th>
-                    <th>Rental Period (Days)</th>
+                    <th>Rental Period (days)</th>
                   </tr>
                   </thead>
                   <tbody id="rental-table-body">
@@ -170,19 +177,27 @@
 
               <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
               <script>
-                $.getJSON('http://localhost:8200/library/rentals/all', function(data) {
-                  console.log(data);
-                  var div = document.getElementById('rental-table-body');
-                  for(i = 0; i < data.length; i++ ){
-                    var tr = document.createElement('tr');
-                    tr.innerHTML = '<td>'+data[i].id+'</td><td>'+ data[i].assetId+'</td><td>'+data[i].userId+'</td><td>'+data[i].date+'</td><td>'+data[i].period+'</td>';
-                    div.appendChild(tr);
-                  }
+                function loadRentals() {
+                  $('#rental-table-body').empty()
+                  $.getJSON('http://localhost:8200/library/rentals/all', function(data) {
+                    console.log(data);
+                    var div = document.getElementById('rental-table-body');
+                    for(i = 0; i < data.length; i++ ){
+                      var tr = document.createElement('tr');
+                      tr.innerHTML = '<td>'+data[i].id+'</td><td>'+ data[i].assetId+'</td><td>'+data[i].userId+'</td><td>'+data[i].date+'</td><td>'+data[i].period+'</td>';
+                      div.appendChild(tr);
+                    }
+                  });
+                }
+              </script>
+              <script>
+                $(document).ready(function() {
+                    loadRentals();
                 });
               </script>
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Reload</button>
+                <button id = "reload-rental-data-button" type="submit" onclick="loadRentals()" class="btn btn-primary">Reload</button>
               </div>
             </div>
           </div>
@@ -195,30 +210,52 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form">
+            <form name="asset-create-form" onsubmit="return createAsset();">
               <div class="box-body">
                 <div class="form-group">
-                  <label for="inputAssetName">Name</label>
-                  <input required="true" type="text" class="form-control" id="inputAssetName" placeholder="Name">
-                </div>
-                <div class="form-group">
                   <label for="inputAssetTitle">Title</label>
-                  <input required="true" type="text" class="form-control" id="inputAssetTitle" placeholder="Title">
+                  <input required="true" type="text" class="form-control" name="title" id="inputAssetTitle" placeholder="Title">
                 </div>
                 <div class="form-group">
                   <label for="inputAssetAuthor">Author</label>
-                  <input required="true" type="text" class="form-control" id="inputAssetAuthor" placeholder="Author">
+                  <input required="true" type="text" class="form-control" name="author" id="inputAssetAuthor" placeholder="Author">
                 </div>
               </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
                 <button type="reset" class="btn btn-primary">Reset Form</button>
-                <button onclick="submitform()" type="submit" class="btn btn-primary">Create Asset</button>
+                <button id="create-asset-button" type="submit" class="btn btn-primary">Create Asset</button>
               </div>
             </form>
           </div>
         </div>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript">
+          function createAsset() {
+            var form = $(document.forms['asset-create-form']);
+            var formData = form.serializeArray();
+
+            var jsonBody = [];
+            asset = {}
+            asset["title"] = formData[0].value;
+            asset["author"] = formData[1].value;
+            jsonBody.push(asset);
+            console.log(" Asset ****** " + JSON.stringify(jsonBody));
+
+            $.ajax({
+              url: "http://localhost:8200/library/assets/create",
+              type: "POST",
+              data: JSON.stringify(jsonBody),
+              contentType: "application/json",
+              complete: function(){
+                console.log("Asset Creation Success!");
+                window.location.reload(true);
+              }
+            });
+            return false;
+          }
+        </script>
 
         <div class="col-sm-6">
           <div class="box box-primary">
@@ -227,23 +264,23 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form">
+            <form name="rental-create-form" onsubmit="return createRental();">
               <div class="box-body">
                 <div class="form-group">
                   <label for="rentalAssetID">Asset ID</label>
-                  <input required="true" type="text" class="form-control" id="rentalAssetID" placeholder="Asset ID">
+                  <input required="true" type="text" class="form-control" id="rentalAssetID" name="assetId" placeholder="Asset ID">
                 </div>
                 <div class="form-group">
                   <label for="rentalUserID">User ID</label>
-                  <input required="true" type="text" class="form-control" id="rentalUserID" placeholder="User ID">
+                  <input required="true" type="text" class="form-control" id="rentalUserID" name="userId" placeholder="User ID">
                 </div>
                 <div class="form-group">
                   <label for="rentalDate">Date</label>
-                  <input required="true" type="text" class="form-control" id="rentalDate" value="2015-11-14 10:00:01">
+                  <input required="true" type="text" class="form-control" id="rentalDate" name="date" value="2015-11-14 10:00:01">
                 </div>
                 <div class="form-group">
                   <label for="rentalPeriod">Period (Number in days)</label>
-                  <input required="true" type="number" class="form-control" id="rentalPeriod"
+                  <input required="true" type="number" class="form-control" id="rentalPeriod" name="period"
                          placeholder="Rental Period (in days)">
                 </div>
               </div>
@@ -251,11 +288,39 @@
 
               <div class="box-footer">
                 <button type="reset" class="btn btn-primary">Reset Form</button>
-                <button type="submit" class="btn btn-primary">Create Rental</button>
+                <button id="create-rental-button" type="submit" class="btn btn-primary">Create Rental</button>
               </div>
             </form>
           </div>
         </div>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript">
+          function createRental() {
+            var form = $(document.forms['rental-create-form']);
+            var formData = form.serializeArray();
+
+            var jsonBody = [];
+            rental = {}
+            rental["assetId"] = formData[0].value;
+            rental["userId"] = formData[1].value;
+            rental["date"] = formData[2].value
+            rental["period"] = formData[3].value
+            jsonBody.push(rental);
+            console.log(" Rental ****** " + JSON.stringify(jsonBody));
+
+            $.ajax({
+              url: "http://localhost:8200/library/rentals/create",
+              type: "POST",
+              data: JSON.stringify(jsonBody),
+              contentType: "application/json",
+              complete: function(){
+                console.log("Rental Creation Success!");
+                window.location.reload(true);
+              }
+            });
+            return false;
+          }
+        </script>
       </div>
     </section>
     <!-- /.content -->

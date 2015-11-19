@@ -115,7 +115,7 @@
               <script>
                 function loadUsers() {
                   $('#user-data-table-body').empty()
-                  $.getJSON('http://localhost:8201/users/all', function(data) {
+                  $.getJSON('http://localhost:8100/users/all', function(data) {
                     console.log(data);
                     var div = document.getElementById('user-data-table-body');
                     for(i = 0; i < data.length; i++ ){
@@ -199,13 +199,13 @@
             console.log(" User ****** " + JSON.stringify(jsonBody));
 
             $.ajax({
-              url: "http://localhost:8201/users/create",
+              url: "http://localhost:8100/users/create",
               type: "POST",
               data: JSON.stringify(jsonBody),
               contentType: "application/json",
               complete: function(){
-                console.log("User Creation Success!")
-                document.forms['user-create-form'].reset();
+                console.log("User Creation Success!");
+                window.location.reload(true);
               }
             });
             return false;
