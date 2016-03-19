@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableAutoConfiguration
+@EnableEurekaClient
 @EnableJpaRepositories(basePackages = "com.poorjar.user.dataaccess")
 public class UserServicesApplication extends SpringBootServletInitializer {
     private static Class<UserServicesApplication> entryPointClass = UserServicesApplication.class;

@@ -13,8 +13,7 @@ jar {
 repositories { mavenCentral() }
 
 dependencies {
-    // tag::jetty[]
-    compile ('org.springframework.boot:spring-boot-starter-web:1.2.2.RELEASE') { exclude module: "spring-boot-starter-tomcat" }
+    compile 'org.springframework.boot:spring-boot-starter-web:1.2.2.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-jetty:1.2.2.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-actuator:1.2.6.RELEASE'
 
