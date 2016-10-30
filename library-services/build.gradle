@@ -3,46 +3,59 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'cobertura'
 apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'com.github.ben-manes.versions'
 
 jar {
+    group = 'com.poorjar.library'
     baseName = 'library-services'
-    version =  '1.0-SNAPSHOT'
+    version = '1.0-SNAPSHOT'
 }
 
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'http://repo.spring.io/release'}
+    maven { url 'https://repo.spring.io/libs-milestone'}
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Camden.RELEASE'
+    }
+}
 
 dependencies {
-    // tag::jetty[]
-    compile ('org.springframework.boot:spring-boot-starter-web:1.2.2.RELEASE') { exclude module: "spring-boot-starter-tomcat" }
-    compile 'org.springframework.boot:spring-boot-starter-jetty:1.2.2.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-actuator:1.2.6.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-data-mongodb:1.2.6.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-data-rest:1.2.6.RELEASE'
-    // compile 'org.springframework.boot:spring-boot-starter-thymeleaf:1.2.6.RELEASE'
+    compile 'org.springframework.cloud:spring-cloud-starter-eureka'
+    compile 'org.springframework.boot:spring-boot-starter-web:1.4.1.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-actuator:1.4.1.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb:1.4.1.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-data-rest:1.4.1.RELEASE'
 
-    compile 'com.google.guava:guava:18.0'
-    compile 'org.apache.logging.log4j:log4j-api:2.2'
-    compile 'org.apache.logging.log4j:log4j-core:2.2'
-    compile 'org.webjars:angularjs:1.4.7'
-    compile 'org.webjars:bootstrap:3.3.5'
+    compile 'com.google.guava:guava:20.0'
+    compile 'org.apache.logging.log4j:log4j-api:2.7'
+    compile 'org.apache.logging.log4j:log4j-core:2.7'
+    compile 'org.webjars:angularjs:2.0.0-alpha.22'
+    compile 'org.webjars:bootstrap:4.0.0-alpha.5'
 
     // Test dependencies
-    testCompile 'org.springframework.boot:spring-boot-starter-test:1.2.6.RELEASE'
+    testCompile 'org.springframework.boot:spring-boot-starter-test:1.4.1.RELEASE'
     testCompile 'junit:junit:4.12'
 }
 
 buildscript {
-    repositories { mavenCentral() }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.2.6.RELEASE'
-        classpath 'net.saliman:gradle-cobertura-plugin:2.2.7'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.3.1'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE'
+        classpath 'net.saliman:gradle-cobertura-plugin:2.3.2'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
     }
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
-task wrapper(type: Wrapper) { gradleVersion = '2.3' }
+task wrapper(type: Wrapper) { gradleVersion = '3.1' }
 
 cobertura.coverageFormats = ['html', 'xml']
