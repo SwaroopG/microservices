@@ -3,13 +3,17 @@
 
 ## Project Structure
 This project has 3 different modules. Each can be run independently on their own.
-  1. library-services - configured to run on port 8200
-  2. user-services    - configured to run on port 8201 
-  3. demo-utils       - configured to run on port 80
+  1. user-services    - configured to run on port 8400
+  2. library-services - configured to run on port 8500
+  3. demo-utils       - configured to run on port 8300
 
 ## Building the project
-At the module level run the following 
+At the module level, run the following 
 **gradle clean build**
+
+## Running the project
+At the project level, run the following
+**gradle clean bootrun**
 
 **Note**: This should build the project and package the archive to build/libs/ folder.
 
