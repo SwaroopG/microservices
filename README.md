@@ -3,9 +3,10 @@
 
 ## Project Structure
 This project has 3 different modules. Each can be run independently on their own.
-  1. user-services    - configured to run on port 8400
-  2. library-services - configured to run on port 8500
-  3. demo-utils       - configured to run on port 8300
+  1. user-services      - configured to run on port 8400
+  2. library-services   - configured to run on port 8500
+  3. microservices-demo - configured to run on port 8300
+  4. eureka-server      - configured to run on port 8761
 
 ## Building the project
 At the module level, run the following 
