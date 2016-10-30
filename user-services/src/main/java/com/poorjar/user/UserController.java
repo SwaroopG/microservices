@@ -25,7 +25,6 @@ public class UserController {
         return this.userRepository.findAll();
     }
 
-
     /**
      * Creates users with the provided info.
      *
@@ -37,5 +36,4 @@ public class UserController {
         LOGGER.error(users);
         return this.userRepository.save(users);
     }
-
 }

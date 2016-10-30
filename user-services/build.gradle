@@ -8,14 +8,14 @@ apply plugin: 'com.github.ben-manes.versions'
 jar {
     group = 'com.poorjar.user'
     baseName = 'user-services'
-    version =  '1.0-SNAPSHOT'
+    version = '1.0-SNAPSHOT'
 }
 
 repositories {
     mavenCentral()
     jcenter()
-    maven { url 'http://repo.spring.io/release'}
-    maven { url 'https://repo.spring.io/libs-milestone'}
+    maven { url 'http://repo.spring.io/release' }
+    maven { url 'https://repo.spring.io/libs-milestone' }
 }
 
 dependencyManagement {
@@ -25,7 +25,7 @@ dependencyManagement {
 }
 
 dependencies {
-	compile 'org.springframework.cloud:spring-cloud-starter-eureka'
+    compile 'org.springframework.cloud:spring-cloud-starter-eureka'
     compile 'org.springframework.boot:spring-boot-starter-web:1.4.1.RELEASE'
     // compile 'org.springframework.boot:spring-boot-starter-jetty:1.4.1.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-actuator:1.4.1.RELEASE'
@@ -37,7 +37,6 @@ dependencies {
     compile 'com.google.guava:guava:20.0'
     compile 'org.apache.logging.log4j:log4j-api:2.7'
     compile 'org.apache.logging.log4j:log4j-core:2.7'
-
 
     // REST Assured
     compile 'com.jayway.restassured:rest-assured:2.9.0'
