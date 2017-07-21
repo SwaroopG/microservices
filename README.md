@@ -1,5 +1,5 @@
 # Project Microservices
-![Architecture](/demo-utils/src/main/resources/static/dist/img/architecture.jpg )
+![Architecture](/microservices-demo/src/main/resources/static/dist/img/architecture.jpg )
 
 ## Project Structure
 This project has 3 different modules. Each can be run independently on their own.
